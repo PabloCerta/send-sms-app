@@ -66,10 +66,10 @@ function onDoneButtonClick() {
 function setupExampleTestHarness() {
 
     const isLocalhost = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-    if (!isLocalhost) {
+    //if (!isLocalhost) {
         // don't load the test harness functions when running in Journey Builder
-        return;
-    }
+        //return;
+    //}
 
     const jbSession = new Postmonger.Session();
     const jb = {};
