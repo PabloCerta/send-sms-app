@@ -1,0 +1,53 @@
+{
+    "workflowApiVersion": "1.1",
+	"metaData": {
+		"icon": "images/icon.png",
+		"iconSmall": "images/icon_small.png",
+        "category": "message"
+	},
+	"type": "REST",
+	"lang": {
+		"en-US": {
+			"name": "Send SMS Custom Activity",
+			"description": "Custom Activity that sends SMS to the contact through the ENet SMS API"
+		}
+	},
+	"configurationArguments": {
+		"save": {
+			"url": "https://send-sms-custom-activity-enet1-0b0d78e1b714.herokuapp.com/api/activity/save",
+			"verb": "POST"
+		},
+		"publish": {
+			"url": "https://send-sms-custom-activity-enet1-0b0d78e1b714.herokuapp.com/api/activity/publish",
+			"verb": "POST"
+		},
+		"validate": {
+			"url": "https://send-sms-custom-activity-enet1-0b0d78e1b714.herokuapp.com/api/activity/validate",
+			"verb": "POST"
+		}
+	},
+	"userInterfaces": {
+		"configurationSupportsReadOnlyMode" : true,
+        "configInspector": {
+            "size": "scm-lg",
+            "emptyIframe": true
+      }
+	},
+	"arguments": {
+		"execute": {
+			"inArguments": [
+                {
+                    "phone": "testphone",
+                    "name": "testname",
+                    "sms": "SMS message to be sent..."
+                }
+            ],
+			"outArguments": [],
+			"url": "https://send-sms-custom-activity-enet1-0b0d78e1b714.herokuapp.com/api/activity/execute",
+			"verb": "POST",
+			"timeout": 10000,
+			"retryCount": 3,
+			"retryDelay": 1000
+		}
+	}
+}
