@@ -24,6 +24,10 @@
 		"validate": {
 			"url": "https://send-sms-custom-activity-enet1-0b0d78e1b714.herokuapp.com/api/activity/validate",
 			"verb": "POST"
+		},
+        "stop": {
+			"url": "https://send-sms-custom-activity-enet1-0b0d78e1b714.herokuapp.com/api/activity/stop",
+			"verb": "POST"
 		}
 	},
 	"userInterfaces": {
@@ -37,15 +41,6 @@
 		"execute": {
 			"inArguments": [
                 {
-                    "contactKey": "{{Contact.Key}}",
-                    "name": "{{Contact.Attribute.PruebaSMS.Name}}",
-                    "phone": "{{Contact.Attribute.PruebaSMS.Phone}}",
-                    "name2": "{{Contact.Name}}",
-                    "phone2": "{{Contact.Phone}}",
-                    "name3": "{{Contact.PruebaSMS.Name}}",
-                    "phone3": "{{Contact.PruebaSMS.Phone}}",
-                    "name4": "{{Contact.Attribute.Name}}",
-                    "phone4": "{{Contact.Attribute.Phone}}",
                     "smsMessage": "SMS message to be sent..."
                 }
             ],

@@ -63,7 +63,7 @@ function onDoneButtonClick() {
         name3: "{{Contact.PruebaSMS.Name}}",
         phone3: "{{Contact.PruebaSMS.Phone}}",
         name4: "{{Contact.Attribute.Name}}",
-        phone4: "{{Contact.Attribute.Phone}}",
+        phone4: "{{Contact.Attribute.Phone}}"
     }];
 
     console.log('------------ triggering:updateActivity({obj}) ----------------');
