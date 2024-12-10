@@ -55,15 +55,7 @@ function onDoneButtonClick() {
     const smsMessage = document.getElementById('sms_message').value;
     activity.arguments.execute.inArguments = [{
         smsMessage,
-        contactKey: "{{Contact.Key}}",
-        name: "{{Contact.Attribute.PruebaSMS.Name}}",
-        phone: "{{Contact.Attribute.PruebaSMS.Phone}}",
-        name2: "{{Contact.Name}}",
-        phone2: "{{Contact.Phone}}",
-        name3: "{{Contact.PruebaSMS.Name}}",
-        phone3: "{{Contact.PruebaSMS.Phone}}",
-        name4: "{{Contact.Attribute.Name}}",
-        phone4: "{{Contact.Attribute.Phone}}"
+        contactKey: "{{Contact.Key}}"
     }];
 
     console.log('------------ triggering:updateActivity({obj}) ----------------');
