@@ -1,7 +1,12 @@
-const express = require('express');
-const path = require('path');
-const activity = require('./routes/activity');
+import express from 'express';
+import { fileURLToPath } from 'url';
+import path from 'path';
+import activity from './routes/activity.js';
 const port = process.env.PORT || 8000;
+
+// get directory name
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // express
 const app = express();

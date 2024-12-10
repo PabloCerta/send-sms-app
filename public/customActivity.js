@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function main() {
 // this function is triggered by Journey Builder via Postmonger, Journey Builder will send us a copy of the activity here
 function onInitActivity(payload) {
 
-    // set the activity object from this payload. We'll refer to this object as wecmodify it before saving.
+    // set the activity object from this payload
     activity = payload;
 
     const hasInArguments = Boolean(
@@ -39,6 +39,8 @@ function onInitActivity(payload) {
     console.log('Has In Arguments: ', hasInArguments);
     console.log('inArguments', inArguments);
     console.log('-------------------------------------------------');
+
+    document.getElementById('sms_message').value = inArguments[0].smsMessage;
 }
 
 function onDoneButtonClick() {
@@ -50,7 +52,10 @@ function onDoneButtonClick() {
     //const select = document.getElementById('discount-code');
 
     // you can set the name that appears below the activity with the name property
-    activity.name = `Issue Code`;
+    const smsMessage = document.getElementById('sms_message');
+    activity.arguments.execute.inArguments = [{
+        smsMessage
+    }];
 
     console.log('------------ triggering:updateActivity({obj}) ----------------');
     console.log('Sending message back to updateActivity');
@@ -66,10 +71,10 @@ function onDoneButtonClick() {
 function setupExampleTestHarness() {
 
     const isLocalhost = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-    //if (!isLocalhost) {
+    if (!isLocalhost) {
         // don't load the test harness functions when running in Journey Builder
-        //return;
-    //}
+        return;
+    }
 
     const jbSession = new Postmonger.Session();
     const jb = {};

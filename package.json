@@ -2,9 +2,10 @@
   "name": "enet_sms",
   "version": "1.0.0",
   "main": "app.js",
+  "type": "module",
   "scripts": {
     "start": "node app",
-    "dev": "node --watch app"
+    "dev": "node --watch --env-file=.env app"
   },
   "keywords": [],
   "author": "",

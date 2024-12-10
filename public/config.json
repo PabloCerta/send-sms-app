@@ -37,9 +37,7 @@
 		"execute": {
 			"inArguments": [
                 {
-                    "phone": "testphone",
-                    "name": "testname",
-                    "sms": "SMS message to be sent..."
+                    "smsMessage": "SMS message to be sent..."
                 }
             ],
 			"outArguments": [],
