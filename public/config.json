@@ -38,8 +38,8 @@
 			"inArguments": [
                 {
                     "contactKey": "{{Contact.Key}}",
-                    "name": "{{Contact.Attribute.Prueba_SMS.Name}}",
-                    "phone": "{{Contact.Attribute.Prueba_SMS.Phone}}",
+                    "name": "{{Contact.Attribute.PruebaSMS.Name}}",
+                    "phone": "{{Contact.Attribute.PruebaSMS.Phone}}",
                     "smsMessage": "SMS message to be sent..."
                 }
             ],
