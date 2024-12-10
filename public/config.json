@@ -8,7 +8,7 @@
 	"type": "REST",
 	"lang": {
 		"en-US": {
-			"name": "Send SMS Custom Activity",
+			"name": "Send SMS ENet",
 			"description": "Custom Activity that sends SMS to the contact through the ENet SMS API"
 		}
 	},

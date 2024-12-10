@@ -52,7 +52,7 @@ function onDoneButtonClick() {
     //const select = document.getElementById('discount-code');
 
     // you can set the name that appears below the activity with the name property
-    const smsMessage = document.getElementById('sms_message');
+    const smsMessage = document.getElementById('sms_message').value;
     activity.arguments.execute.inArguments = [{
         smsMessage
     }];
