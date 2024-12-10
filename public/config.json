@@ -37,6 +37,7 @@
 		"execute": {
 			"inArguments": [
                 {
+                    "name": "{{Contact.Attribute.Prueba_SMS.Name}}",
                     "smsMessage": "SMS message to be sent..."
                 }
             ],
