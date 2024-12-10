@@ -54,7 +54,8 @@ function onDoneButtonClick() {
     // you can set the name that appears below the activity with the name property
     const smsMessage = document.getElementById('sms_message').value;
     activity.arguments.execute.inArguments = [{
-        smsMessage
+        smsMessage,
+        name: '{{Contact.Attribute.Prueba_SMS.Name}}'
     }];
 
     console.log('------------ triggering:updateActivity({obj}) ----------------');
