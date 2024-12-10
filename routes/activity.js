@@ -4,7 +4,7 @@ const router = express.Router();
 // Called when a contact is flowing through the Journey
 router.post('/execute', async function(req, res) {
     console.log('Called: api/activity/execute');
-    console.log("Request:::", JSON.stringify(req));
+    console.log("Request:::", req);
     console.log("Request body:::", JSON.stringify(req.body));
     // Call ENet SMS API
     try {
