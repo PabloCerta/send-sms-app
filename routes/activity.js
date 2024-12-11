@@ -5,14 +5,19 @@ const router = express.Router();
 router.post('/execute', async function(req, res) {
     console.log('Called: api/activity/execute');
     console.log("Request body:::", JSON.stringify(req.body));
-    //TO-DO: Get Name and Phone of the current Contact from req.body
-    
+
+    //Get Name and Phone of the current Contact from req.body
+    const request = req.body;
+    if(!request || !request.inArguments || request.inArguments.length == 0) return res.status(500).end();
+    const { smsMessage, contactKey, name, phone } = request.inArguments[0];
+    console.log(`Contact processed::: ${{contactKey}} - ${{name}}`);
+
     // Call ENet SMS API
     try {
         const response = await fetch(process.env.SMS_ENDPOINT, {
             method: "POST",
             headers: { "Content-Type": "application/json", "client_id": process.env.CLIENT_ID, "client_secret": process.env.CLIENT_SECRET },
-            body: JSON.stringify({ "message": "Hello World", "msisdn": "5927344234" })
+            body: JSON.stringify({ "message": smsMessage, "msisdn": phone })
         });
         if(!response.ok) {
             console.error(response.statusText);
@@ -42,6 +47,7 @@ router.post('/publish', function(req, res) {
 // Called when Journey Builder wants you to validate the configuration to ensure the configuration is valid
 router.post('/validate', function(req, res) {
     console.log('Called::: api/activity/validate');
+    // TO-DO: Validate if SMS message is empty
     return res.status(200).json({});
 });
 
