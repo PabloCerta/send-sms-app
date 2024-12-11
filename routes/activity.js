@@ -5,6 +5,8 @@ const router = express.Router();
 router.post('/execute', async function(req, res) {
     console.log('Called: api/activity/execute');
     console.log("Request body:::", JSON.stringify(req.body));
+    //TO-DO: Get Name and Phone of the current Contact from req.body
+    
     // Call ENet SMS API
     try {
         const response = await fetch(process.env.SMS_ENDPOINT, {

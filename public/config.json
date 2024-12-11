@@ -41,7 +41,10 @@
 		"execute": {
 			"inArguments": [
                 {
-                    "smsMessage": "SMS message to be sent..."
+					"contactKey": "{{Contact.Key}}",
+        			"name": "{{Contact.Attribute.PruebaSMS.Name}}",
+        			"phone": "{{Contact.Attribute.PruebaSMS.Phone}}",
+                    "smsMessage": ""
                 }
             ],
 			"outArguments": [],

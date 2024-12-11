@@ -7,10 +7,11 @@ let activity = null;
 // Wait for the document to load
 document.addEventListener('DOMContentLoaded', function main() {
 
-    // Setup a test harness so we can interact with our custom activity outside of journey builder using window functions & browser devtools¿
-    setupExampleTestHarness();
-
+    // Done button click listener
     document.getElementById('button-submit').addEventListener('click', onDoneButtonClick);
+
+    // SMS message input listener
+    document.getElementById("sms-message").addEventListener("input", onSMSMessageChange);
 
     // Journey Builder will respond with "initActivity" after it receives the "ready" signal
     connection.on('initActivity', onInitActivity);
@@ -19,40 +20,40 @@ document.addEventListener('DOMContentLoaded', function main() {
     connection.trigger('ready');
 });
 
-// this function is triggered by Journey Builder via Postmonger, Journey Builder will send us a copy of the activity here
+// This function is triggered by Journey Builder via Postmonger, Journey Builder will send us a copy of the activity here
 function onInitActivity(payload) {
 
-    // set the activity object from this payload
+    // Set the activity object from this payload
     activity = payload;
 
+    // Checks if activity objects has inArguments
     const hasInArguments = Boolean(
         activity.arguments &&
         activity.arguments.execute &&
         activity.arguments.execute.inArguments &&
         activity.arguments.execute.inArguments.length > 0
     );
-
     const inArguments = hasInArguments ? activity.arguments.execute.inArguments : [];
 
-    console.log('-------- triggered:onInitActivity({obj}) --------');
-    console.log('activity:\n ', JSON.stringify(activity, null, 4));
-    console.log('Has In Arguments: ', hasInArguments);
-    console.log('inArguments', inArguments);
-    console.log('-------------------------------------------------');
+    // Gets SMS message that is stored in the activity inArguments (if any)
+    const smsMessageArgument = inArguments.find((arg) => arg.smsMessage);
 
-    document.getElementById('sms_message').value = inArguments[0].smsMessage;
+    // Sets SMS message in the textarea element
+    if(smsMessageArgument && smsMessageArgument.smsMessage){
+        document.getElementById('sms-message').value = smsMessageArgument.smsMessage;
+        document.getElementById("button-submit").disabled = false;
+    }else{
+        document.getElementById("button-submit").disabled = true;
+    }
 }
 
 function onDoneButtonClick() {
-    // we set must metaData.isConfigured in order to tell JB that
-    // this activity is ready for activation
+    // Set must metaData.isConfigured in order to tell Journey Builder that this activity is ready for activation
     activity.metaData.isConfigured = true;
 
-    // get the option that the user selected and save it to
-    //const select = document.getElementById('discount-code');
-
-    // you can set the name that appears below the activity with the name property
-    const smsMessage = document.getElementById('sms_message').value;
+    // Set inArguments with the SMS message that the user inputs on the textarea element
+    // TO-DO: Pass Data Extension Name as env variable --> "{{Contact.Attribute."+process.env.DE_NAME+".\"Name\"}}"
+    const smsMessage = document.getElementById('sms-message').value;
     activity.arguments.execute.inArguments = [{
         smsMessage,
         contactKey: "{{Contact.Key}}",
@@ -60,70 +61,15 @@ function onDoneButtonClick() {
         phone: "{{Contact.Attribute.PruebaSMS.Phone}}"
     }];
 
-    console.log('------------ triggering:updateActivity({obj}) ----------------');
-    console.log('Sending message back to updateActivity');
-    console.log('saving\n', JSON.stringify(activity, null, 4));
-    console.log('--------------------------------------------------------------');
-
+    // Updates the activity structure in Journey Builder
     connection.trigger('updateActivity', activity);
 }
 
-// this function is for example purposes only. it sets ups a Postmonger
-// session that emulates how Journey Builder works. You can call jb.ready()
-// from the console to kick off the initActivity event with a mock activity object
-function setupExampleTestHarness() {
-
-    const isLocalhost = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-    if (!isLocalhost) {
-        // don't load the test harness functions when running in Journey Builder
-        return;
+function onSMSMessageChange(e) {
+    // Disables Done button if textarea is empty
+    if (e.currentTarget.value.length > 0) {
+        document.getElementById("button-submit").disabled = false;
+    } else {
+        document.getElementById("button-submit").disabled = true;
     }
-
-    const jbSession = new Postmonger.Session();
-    const jb = {};
-    window.jb = jb;
-
-    jbSession.on('setActivityDirtyState', function(value) {
-        console.log('[echo] setActivityDirtyState -> ', value);
-    });
-
-    jbSession.on('requestInspectorClose', function() {
-        console.log('[echo] requestInspectorClose');
-    });
-
-    jbSession.on('updateActivity', function(activity) {
-        console.log('[echo] updateActivity -> ', JSON.stringify(activity, null, 4));
-    });
-
-    jbSession.on('ready', function() {
-        console.log('[echo] ready');
-        console.log('\tuse jb.ready() from the console to initialize your activity')
-    });
-
-    // fire the ready signal with an example activity
-    jb.ready = function() {
-        jbSession.trigger('initActivity', {
-            name: '',
-            key: 'EXAMPLE-1',
-            metaData: {},
-            configurationArguments: {},
-            arguments: {
-                executionMode: "{{Context.ExecutionMode}}",
-                definitionId: "{{Context.DefinitionId}}",
-                activityId: "{{Activity.Id}}",
-                contactKey: "{{Context.ContactKey}}",
-                execute: {
-                    inArguments: [
-                        {
-                            smsMessage: "Sample SMS Text Message."
-                        }
-                    ],
-                    outArguments: []
-                },
-                startActivityKey: "{{Context.StartActivityKey}}",
-                definitionInstanceId: "{{Context.DefinitionInstanceId}}",
-                requestObjectId: "{{Context.RequestObjectId}}"
-            }
-        });
-    };
 }
