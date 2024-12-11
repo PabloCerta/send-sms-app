@@ -71,5 +71,5 @@ function setupEventHandlers() {
     // Done button click listener
     document.getElementById('button-submit').addEventListener('click', onDoneButtonClick);
     // Cancel button click listener
-    document.getElementById('button-cancel').addEventListener('click', onDoneButtonClick);
+    document.getElementById('button-cancel').addEventListener('click', onCancelButtonClick);
 }
