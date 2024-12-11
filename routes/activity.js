@@ -5,20 +5,19 @@ const router = express.Router();
 router.post('/execute', async function(req, res) {
     console.log('Called: api/activity/execute');
     console.log("Request body:::", JSON.stringify(req.body));
-
-    //Get Name and Phone of the current Contact from req.body
-    const request = req.body;
-    if(!request || !request.inArguments || request.inArguments.length == 0) return res.status(500).end();
-    const { smsMessage, contactKey, name, phone } = request.inArguments[0];
-    console.log(`Contact processed::: ${{contactKey}} - ${{name}}`);
-
-    // Call ENet SMS API
     try {
+        //Get current Contact info from req.body
+        const request = req.body;
+        if(!request || !request.inArguments || request.inArguments.length == 0) return res.status(500).end();
+        const { smsMessage, contactKey, name, phone } = request.inArguments[0];
+        console.log(`Contact processed::: ${contactKey} - ${name}`);
+        // Call ENet SMS API
         const response = await fetch(process.env.SMS_ENDPOINT, {
             method: "POST",
             headers: { "Content-Type": "application/json", "client_id": process.env.CLIENT_ID, "client_secret": process.env.CLIENT_SECRET },
             body: JSON.stringify({ "message": smsMessage, "msisdn": phone })
         });
+        // Process response
         if(!response.ok) {
             console.error(response.statusText);
             return res.status(400).end(); // Can be changed with response.status

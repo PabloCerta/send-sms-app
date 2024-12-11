@@ -7,11 +7,8 @@ let activity = null;
 // Wait for the document to load
 document.addEventListener('DOMContentLoaded', function main() {
 
-    // Done button click listener
-    document.getElementById('button-submit').addEventListener('click', onDoneButtonClick);
-
-    // SMS message input listener
-    document.getElementById("sms-message").addEventListener("input", onSMSMessageChange);
+    // Setup event handlers
+    setupEventHandlers();
 
     // Journey Builder will respond with "initActivity" after it receives the "ready" signal
     connection.on('initActivity', onInitActivity);
@@ -41,9 +38,6 @@ function onInitActivity(payload) {
     // Sets SMS message in the textarea element
     if(smsMessageArgument && smsMessageArgument.smsMessage){
         document.getElementById('sms-message').value = smsMessageArgument.smsMessage;
-        document.getElementById("button-submit").disabled = false;
-    }else{
-        document.getElementById("button-submit").disabled = true;
     }
 }
 
@@ -65,11 +59,17 @@ function onDoneButtonClick() {
     connection.trigger('updateActivity', activity);
 }
 
-function onSMSMessageChange(e) {
-    // Disables Done button if textarea is empty
-    if (e.currentTarget.value.length > 0) {
-        document.getElementById("button-submit").disabled = false;
-    } else {
-        document.getElementById("button-submit").disabled = true;
-    }
+function onCancelButtonClick() {
+    // Tell Journey Builder that this activity has no changes, we wont be prompted to save changes when the inspector closes
+    connection.trigger('setActivityDirtyState', false);
+
+    // Request that Journey Builder closes the inspector/drawer
+    connection.trigger('requestInspectorClose');
+}
+
+function setupEventHandlers() {
+    // Done button click listener
+    document.getElementById('button-submit').addEventListener('click', onDoneButtonClick);
+    // Cancel button click listener
+    document.getElementById('button-cancel').addEventListener('click', onDoneButtonClick);
 }

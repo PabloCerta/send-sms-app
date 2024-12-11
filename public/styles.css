@@ -12,12 +12,10 @@ textarea {
     width: 80%;
 }
 
-.button-submit {
-  background-color: #ffb75d;
-  border: 1px solid rgba(254, 138, 24, .15);
+button {
   border-radius: 6px;
-  box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
   box-sizing: border-box;
+  border: 1px solid rgba(254, 138, 24, .15);
   color: #fff;
   cursor: pointer;
   display: inline-block;
@@ -27,15 +25,28 @@ textarea {
   padding: 6px 16px;
   position: relative;
   text-align: center;
+  width: 16%;
+}
+
+button:disabled {
+  background-color: #ccc;
+  border-color: rgba(27, 31, 35, .1);
+  color: rgba(255, 255, 255, .8);
+  cursor: default;
+}
+
+.button-submit {
+  background-color: #ffb75d;
 }
 
 .button-submit:hover {
   background-color: #fe8a18;
 }
 
-.button-submit:disabled {
-  background-color: #ccc;
-  border-color: rgba(27, 31, 35, .1);
-  color: rgba(255, 255, 255, .8);
-  cursor: default;
+.button-cancel {
+  background-color: #ec5161;
+}
+
+.button-cancel:hover {
+  background-color: #e6245a;
 }
