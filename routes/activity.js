@@ -26,7 +26,7 @@ router.post('/execute', async function(req, res) {
         const jsonResponse = await response.json();
         console.log(`SMS Response Success::: ${jsonResponse}`);
         //return res.status(200).json(jsonResponse);
-        return res.status(200).end({branchResult: 'SMS_ERROR'});
+        return res.status(200).end({branchResult: 'SMS_SUCCESS'});
     } catch(error) {
         console.error(`SMS Response Exception::: ${error.message}`);
         return res.status(500).end();
