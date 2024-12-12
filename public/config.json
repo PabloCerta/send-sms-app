@@ -54,23 +54,5 @@
 			"retryCount": 3,
 			"retryDelay": 1000
 		}
-	},
-	"outcomes": [
-		{
-			"arguments": {
-				"branchResult": "SMS_SUCCESS"
-			},
-			"metaData": {
-				"label": "SMS SUCCESS"
-			}
-		},
-		{
-			"arguments": {
-				"branchResult": "SMS_ERROR"
-			},
-			"metaData": {
-				"label": "SMS ERROR"
-			}
-		}
-	]
+	}
 }
