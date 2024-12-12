@@ -19,14 +19,14 @@ router.post('/execute', async function(req, res) {
         });
         // Process response
         if(!response.ok) {
-            console.error(response.statusText);
-            return res.status(400).end(); // Can be changed with response.status
+            console.error(`SMS Response Error::: ${response.statusText}`);
+            return res.status(500).end(); // Can be changed with response.status
         }
         const jsonResponse = await response.json();
-        console.log(jsonResponse);
+        console.log(`SMS Response Success::: ${jsonResponse}`);
         return res.status(200).json(jsonResponse);
     } catch(error) {
-        console.error(error.message);
+        console.error(`SMS Response Exception::: ${error.message}`);
         return res.status(500).end();
     }
 });
@@ -46,6 +46,7 @@ router.post('/publish', function(req, res) {
 // Called when Journey Builder wants you to validate the configuration to ensure the configuration is valid
 router.post('/validate', function(req, res) {
     console.log('Called::: api/activity/validate');
+    console.log(`Request body::: ${JSON.stringify(req.body)}`);
     // TO-DO: Validate if SMS message is empty
     return res.status(200).json({});
 });
