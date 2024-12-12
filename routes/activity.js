@@ -20,11 +20,13 @@ router.post('/execute', async function(req, res) {
         // Process response
         if(!response.ok) {
             console.error(`SMS Response Error::: ${response.statusText}`);
-            return res.status(500).end(); // Can be changed with response.status
+            //return res.status(500).end(); // Can be changed with response.status
+            return res.status(500).end({branchResult: 'SMS_ERROR'});
         }
         const jsonResponse = await response.json();
         console.log(`SMS Response Success::: ${jsonResponse}`);
-        return res.status(200).json(jsonResponse);
+        //return res.status(200).json(jsonResponse);
+        return res.status(200).end({branchResult: 'SMS_ERROR'});
     } catch(error) {
         console.error(`SMS Response Exception::: ${error.message}`);
         return res.status(500).end();
@@ -34,6 +36,7 @@ router.post('/execute', async function(req, res) {
 // Called when a Journey is saving the activity
 router.post('/save', function(req, res) {
     console.log('Called::: api/activity/save');
+    console.log(`Request body save::: ${JSON.stringify(req.body)}`);
     return res.status(200).json({});
 });
 
@@ -46,7 +49,7 @@ router.post('/publish', function(req, res) {
 // Called when Journey Builder wants you to validate the configuration to ensure the configuration is valid
 router.post('/validate', function(req, res) {
     console.log('Called::: api/activity/validate');
-    console.log(`Request body::: ${JSON.stringify(req.body)}`);
+    console.log(`Request body validate::: ${JSON.stringify(req.body)}`);
     // TO-DO: Validate if SMS message is empty
     return res.status(200).json({});
 });
