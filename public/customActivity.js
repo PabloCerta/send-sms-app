@@ -12,9 +12,6 @@ document.addEventListener('DOMContentLoaded', function main() {
 
     // Journey Builder will respond with "initActivity" after it receives the "ready" signal
     connection.on('initActivity', onInitActivity);
-
-    // Journey Builder will respond with "requestedSchema", this responds with the current data source schema
-    connection.on('requestedSchema', onRequestedSchema);
     
     // Tell parent iFrame that we are ready.
     connection.trigger('ready');
@@ -28,6 +25,22 @@ function onInitActivity(payload) {
 
     // Test dynamic data source
     connection.trigger('requestSchema');
+    // Journey Builder will respond with "requestedSchema", this responds with the current data source schema
+    connection.on('requestedSchema', function(data) {
+        // Get all the select elements, they have the same options
+        const selectElements = document.querySelectorAll('select');
+
+        // Get schema
+        const schema = data['schema'];
+
+        // Iterate over schema (i.e. every field value) and add them as options
+        schema.forEach( opt => {
+            let optElement = new Option(opt.name,`{{${opt.key}}}`);
+            selectElements[0].add(optElement, undefined);
+            selectElements[1].add(optElement, undefined);
+            selectElements[2].add(optElement, undefined);
+        });
+    });
 
     // Checks if activity objects has inArguments
     const hasInArguments = Boolean(
@@ -46,20 +59,6 @@ function onInitActivity(payload) {
         document.getElementById('sms-message').value = smsMessageArgument.smsMessage;
     }
 }
-
-function onRequestedSchema(data) {
-    // Get all the select elements, they have the same options
-    const selectElements = document.querySelectorAll('select');
-
-    // Get schema
-    const schema = data['schema'];
-
-    // Iterate over schema (i.e. every field value) and add them as options
-    schema.forEach( opt => {
-        let optElement = new Option(`{{${opt.name}}}`,`{{${opt.key}}}`);
-        selectElements.forEach( select => select.add(optElement, undefined));
-    });
-};
 
 function onDoneButtonClick() {
     // Set must metaData.isConfigured in order to tell Journey Builder that this activity is ready for activation
