@@ -48,15 +48,13 @@ function onInitActivity(payload) {
     activity = payload;
 
     // Checks if activity objects has inArguments
-    const hasInArguments = Boolean(
-        activity.arguments &&
-        activity.arguments.execute &&
-        activity.arguments.execute.inArguments &&
-        activity.arguments.execute.inArguments.length > 0
-    );
+    const hasInArguments = activity.arguments?.execute?.inArguments?.length > 0
 
+    // If there is at least one inArgument
     if(hasInArguments){
-        const { smsMessage, contactKey, name, phone } = activity.arguments.execute.inArguments[0];
+        const { smsMessage, contactKey, name, phone, zaraza } = activity.arguments.execute.inArguments[0];
+
+        console.log(zaraza);
 
         // Set Key select
         if(contactKey && schema.some((scm) => scm.key === contactKey)){
@@ -75,7 +73,7 @@ function onInitActivity(payload) {
 
         // Sets SMS message in the textarea element
         if(smsMessage){
-            document.getElementById('sms-message').value = smsMessageArgument.smsMessage;
+            document.getElementById('sms-message').value = smsMessage;
         }
     }
 }
@@ -84,15 +82,12 @@ function onDoneButtonClick() {
     // Set must metaData.isConfigured in order to tell Journey Builder that this activity is ready for activation
     activity.metaData.isConfigured = true;
 
-    // Set inArguments with the SMS message that the user inputs on the textarea element
-    // TO-DO: Pass Data Extension Name as env variable --> "{{Contact.Attribute."+process.env.DE_NAME+".\"Name\"}}"
+    // Set inArguments with the SMS message that the user inputs on the textarea element and the data bindings of the select elements
     const smsMessage = document.getElementById('sms-message').value;
-    activity.arguments.execute.inArguments = [{
-        smsMessage,
-        contactKey: "{{Contact.Key}}",
-        name: "{{Contact.Attribute.PruebaSMS.Name}}",
-        phone: "{{Contact.Attribute.PruebaSMS.Phone}}"
-    }];
+    const contactKey = document.getElementById('key-select').value;
+    const name = document.getElementById('name-select').value;
+    const phone = document.getElementById('phone-select').value;
+    activity.arguments.execute.inArguments = [{ smsMessage, contactKey, name, phone }];
 
     // Updates the activity structure in Journey Builder
     connection.trigger('updateActivity', activity);
