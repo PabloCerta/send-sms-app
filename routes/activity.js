@@ -4,7 +4,7 @@ const router = express.Router();
 // Called when a contact is flowing through the Journey
 router.post('/execute', async function(req, res) {
     console.log('Called: api/activity/execute');
-    console.log("Request body:::", JSON.stringify(req.body));
+    console.log(`Request body::: ${JSON.stringify(req.body)}`);
     try {
         //Get current Contact info from req.body
         const request = req.body;
@@ -20,7 +20,7 @@ router.post('/execute', async function(req, res) {
         // Process response
         if(!response.ok) {
             console.error(`SMS Response Error::: ${response.status} - ${response.statusText}`);
-            return res.status(400).end(); // Can be changed with response.status
+            return res.status(400).end(); // Status 400 can be changed with response.status
         }
         const jsonResponse = await response.json();
         console.log(`SMS Response Success::: ${JSON.stringify(jsonResponse)}`);
