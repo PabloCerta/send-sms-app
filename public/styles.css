@@ -12,10 +12,6 @@ label {
   text-align: left;
 }
 
-textarea {
-  /*width: 90%;*/
-}
-
 .inputWrapper {
   display: flex;
   flex-direction: column;

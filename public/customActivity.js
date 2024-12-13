@@ -3,6 +3,8 @@ const connection = new Postmonger.Session();
 
 // Variable to store activity JSON
 let activity = null;
+// Variable to store data schema
+let schema = null;
 
 // Wait for the document to load
 document.addEventListener('DOMContentLoaded', function main() {
@@ -16,43 +18,16 @@ document.addEventListener('DOMContentLoaded', function main() {
     // Journey Builder will respond with "requestedSchema", this responds with the current data source schema
     connection.on('requestedSchema', onRequestedSchema);
     
-    // Tell parent iFrame that we are ready.
-    connection.trigger('ready');
-});
-
-// This function is triggered by Journey Builder via Postmonger, Journey Builder will send us a copy of the activity here
-function onInitActivity(payload) {
-
-    // Set the activity object from this payload
-    activity = payload;
-
-    // Test dynamic data source
+    // Load data source dynamically
     connection.trigger('requestSchema');
-
-    // Checks if activity objects has inArguments
-    const hasInArguments = Boolean(
-        activity.arguments &&
-        activity.arguments.execute &&
-        activity.arguments.execute.inArguments &&
-        activity.arguments.execute.inArguments.length > 0
-    );
-    const inArguments = hasInArguments ? activity.arguments.execute.inArguments : [];
-
-    // Gets SMS message that is stored in the activity inArguments (if any)
-    const smsMessageArgument = inArguments.find((arg) => arg.smsMessage);
-
-    // Sets SMS message in the textarea element
-    if(smsMessageArgument && smsMessageArgument.smsMessage){
-        document.getElementById('sms-message').value = smsMessageArgument.smsMessage;
-    }
-}
+});
 
 function onRequestedSchema(data) {
     // Get all the select elements, they have the same options
     const selectElements = document.querySelectorAll('select');
 
     // Get schema
-    const schema = data['schema'];
+    schema = data['schema'];
 
     // Iterate over schema (i.e. every field value) and add them as options
     schema.forEach( opt => {
@@ -61,6 +36,48 @@ function onRequestedSchema(data) {
             select.add(optElement, undefined);
         })
     });
+
+    // Tell parent iFrame that we are ready.
+    connection.trigger('ready');
+}
+
+// This function is triggered by Journey Builder via Postmonger, Journey Builder will send us a copy of the activity here
+function onInitActivity(payload) {
+
+    // Set the activity object from this payload
+    activity = payload;
+
+    // Checks if activity objects has inArguments
+    const hasInArguments = Boolean(
+        activity.arguments &&
+        activity.arguments.execute &&
+        activity.arguments.execute.inArguments &&
+        activity.arguments.execute.inArguments.length > 0
+    );
+
+    if(hasInArguments){
+        const { smsMessage, contactKey, name, phone } = activity.arguments.execute.inArguments[0];
+
+        // Set Key select
+        if(contactKey && schema.some((scm) => scm.key === contactKey)){
+            document.getElementById('key-select').value = contactKey;
+        }
+
+        // Set Name select
+        if(name && schema.some((scm) => scm.key === name)){
+            document.getElementById('name-select').value = name;
+        }
+
+        // Set Phone select
+        if(phone && schema.some((scm) => scm.key === phone)){
+            document.getElementById('phone-select').value = phone;
+        }
+
+        // Sets SMS message in the textarea element
+        if(smsMessage){
+            document.getElementById('sms-message').value = smsMessageArgument.smsMessage;
+        }
+    }
 }
 
 function onDoneButtonClick() {

@@ -39,14 +39,7 @@
 	},
 	"arguments": {
 		"execute": {
-			"inArguments": [
-                {
-					"contactKey": "{{Contact.Key}}",
-        			"name": "{{Contact.Attribute.PruebaSMS.Name}}",
-        			"phone": "{{Contact.Attribute.PruebaSMS.Phone}}",
-                    "smsMessage": ""
-                }
-            ],
+			"inArguments": [],
 			"outArguments": [],
 			"url": "https://send-sms-custom-activity-enet1-0b0d78e1b714.herokuapp.com/api/activity/execute",
 			"verb": "POST",
