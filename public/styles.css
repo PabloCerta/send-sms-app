@@ -13,10 +13,10 @@ label {
 }
 
 textarea {
-  width: 90%;
+  /*width: 90%;*/
 }
 
-.selectContainer {
+.inputWrapper {
   display: flex;
   flex-direction: column;
   margin: 0 1.25rem;
