@@ -49,15 +49,15 @@ function onInitActivity(payload) {
 
 function onRequestedSchema(data) {
     // Get all the select elements, they have the same options
-    const select = document.querySelector('select');
+    const selectElements = document.querySelectorAll('select');
 
     // Get schema
     const schema = data['schema'];
 
     // Iterate over schema (i.e. every field value) and add them as options
     schema.forEach( opt => {
-        let optElement = new Option(`{{${opt.key}}}`,`{{${opt.key}}}`);
-        select.add(optElement, undefined);
+        let optElement = new Option(`{{${opt.name}}}`,`{{${opt.key}}}`);
+        selectElements.forEach( select => select.add(optElement, undefined));
     });
 };
 
