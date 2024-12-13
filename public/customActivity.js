@@ -52,22 +52,21 @@ function onInitActivity(payload) {
 
     // If there is at least one inArgument
     if(hasInArguments){
-        const { smsMessage, contactKey, name, phone, zaraza } = activity.arguments.execute.inArguments[0];
-
-        console.log(zaraza);
+        // Get inArguments values
+        const { smsMessage, contactKey, name, phone } = activity.arguments.execute.inArguments[0];
 
         // Set Key select
-        if(contactKey && schema.some((scm) => scm.key === contactKey)){
+        if(contactKey && schema.some((scm) => `{{${scm.key}}}` === contactKey)){
             document.getElementById('key-select').value = contactKey;
         }
 
         // Set Name select
-        if(name && schema.some((scm) => scm.key === name)){
+        if(name && schema.some((scm) => `{{${scm.key}}}` === name)){
             document.getElementById('name-select').value = name;
         }
 
         // Set Phone select
-        if(phone && schema.some((scm) => scm.key === phone)){
+        if(phone && schema.some((scm) => `{{${scm.key}}}` === phone)){
             document.getElementById('phone-select').value = phone;
         }
 
@@ -83,11 +82,12 @@ function onDoneButtonClick() {
     activity.metaData.isConfigured = true;
 
     // Set inArguments with the SMS message that the user inputs on the textarea element and the data bindings of the select elements
-    const smsMessage = document.getElementById('sms-message').value;
-    const contactKey = document.getElementById('key-select').value;
-    const name = document.getElementById('name-select').value;
-    const phone = document.getElementById('phone-select').value;
-    activity.arguments.execute.inArguments = [{ smsMessage, contactKey, name, phone }];
+    activity.arguments.execute.inArguments = [{ 
+        smsMessage: document.getElementById('sms-message').value, 
+        contactKey: document.getElementById('key-select').value, 
+        name: document.getElementById('name-select').value, 
+        phone: document.getElementById('phone-select').value
+    }];
 
     // Updates the activity structure in Journey Builder
     connection.trigger('updateActivity', activity);
