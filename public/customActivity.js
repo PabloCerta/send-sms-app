@@ -23,6 +23,18 @@ function onInitActivity(payload) {
     // Set the activity object from this payload
     activity = payload;
 
+    // Test dynamic data source
+    connection.trigger('requestSchema');
+    connection.on('requestedSchema', function (data) {
+
+        // add entry source attributes as inArgs
+        const schema = data['schema'];
+
+        console.log(data);
+        console.log(schema);
+    });
+
+
     // Checks if activity objects has inArguments
     const hasInArguments = Boolean(
         activity.arguments &&
