@@ -56,19 +56,13 @@ function onInitActivity(payload) {
         const { smsMessage, contactKey, name, phone } = activity.arguments.execute.inArguments[0];
 
         // Set Key select
-        if(contactKey && schema.some((scm) => `{{${scm.key}}}` === contactKey)){
-            document.getElementById('key-select').value = contactKey;
-        }
+        setSelectAttribute('key', contactKey);
 
         // Set Name select
-        if(name && schema.some((scm) => `{{${scm.key}}}` === name)){
-            document.getElementById('name-select').value = name;
-        }
+        setSelectAttribute('name', name);
 
         // Set Phone select
-        if(phone && schema.some((scm) => `{{${scm.key}}}` === phone)){
-            document.getElementById('phone-select').value = phone;
-        }
+        setSelectAttribute('phone', phone);
 
         // Sets SMS message in the textarea element
         if(smsMessage){
@@ -107,4 +101,11 @@ function setupEventHandlers() {
 
     // Cancel button click listener
     document.getElementById('button-cancel').addEventListener('click', onCancelButtonClick);
+}
+
+function setSelectAttribute(attrName, attrValue) {
+    // Sets attribute value if it's a valid option of the select element
+    if(attrValue && schema.some((scm) => `{{${scm.key}}}` === attrValue)){
+        document.getElementById(`${attrName}-select`).value = attrValue;
+    }
 }
