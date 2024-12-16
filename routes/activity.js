@@ -13,7 +13,7 @@ router.post('/execute', async function(req, res) {
         console.log(`Contact processed::: ${contactKey} - ${name}`);
         // Replace attributes
         console.log(`SMS message PRE::: ${smsMessage}`);
-        const smsMessageFormatted = smsMessage.replace('{{KeyAttribute}}', contactKey).replace('{{NameAttribute}}', name).replace('{{PhoneAttribute}}', phone);
+        const smsMessageFormatted = smsMessage.replace('${KeyAttribute}', contactKey).replace('${NameAttribute}', name).replace('${PhoneAttribute}', phone);
         console.log(`SMS message POST::: ${smsMessageFormatted}`);
         // Call ENet SMS API
         const response = await fetch(process.env.SMS_ENDPOINT, {
