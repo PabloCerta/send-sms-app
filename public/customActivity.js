@@ -72,7 +72,7 @@ function onInitActivity(payload) {
 }
 
 function onDoneButtonClick() {
-    // Set must metaData.isConfigured in order to tell Journey Builder that this activity is ready for activation
+    // Set metaData.isConfigured in order to tell Journey Builder that this activity is ready for activation
     activity.metaData.isConfigured = true;
 
     // Set inArguments with the SMS message that the user inputs on the textarea element and the data bindings of the select elements
