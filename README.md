@@ -38,7 +38,7 @@ In the pick list attributes the corresponding option must be selected based on t
 
 - Name
 - Phone
-- Id
+- ID
   
 These options are the ones that will appear in the Custom Activity and the corresponding one must be chosen for each attribute so that the correct contact value is obtained by the app.
 
