@@ -10,7 +10,6 @@ In order to use the application as a Custom Activity in Journey Builder, follow 
 
    ![image](https://github.com/user-attachments/assets/028ced6e-7f3d-43ee-bcf4-b5a07af728d5)
 
-
 3. Once the app is deployed, configure the following environment variables
 
       - CLIENT_ID
@@ -37,11 +36,13 @@ In order to use the application as a Custom Activity in Journey Builder, follow 
 
 In the pick list attributes the corresponding option must be selected based on the columns/fields of the Data Source structure, for example if the Data Source has the following columns
 
-- ContactId
-- ContactName
-- ContactPhone
+- Name
+- Phone
+- Id
   
 These options are the ones that will appear in the Custom Activity and the corresponding one must be chosen for each attribute so that the correct contact value is obtained by the app.
+
+![image](https://github.com/user-attachments/assets/edc7a45f-4140-40be-a615-7603f34ddd03)
 
 These attributes can be used on the SMS Message input with the ${} notation.
 
