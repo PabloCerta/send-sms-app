@@ -1,5 +1,5 @@
 # send-sms-app
-Journey Builder Custom Activity that sends SMS message through an API
+Custom Journey Builder Activity that sends SMS messages through an API
 
 ## Usage
 In order to use the application as a Custom Activity in Journey Builder, follow this steps
