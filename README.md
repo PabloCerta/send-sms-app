@@ -2,7 +2,7 @@
 Custom Journey Builder Activity that sends SMS messages through an API
 
 ## Usage
-In order to use the application as a Custom Activity in Journey Builder, follow this steps
+In order to use the application as a Custom Activity in Journey Builder, follow these steps
 
 1. Deploy the app in a hosting website (in this example, Heroku)
    
@@ -48,5 +48,5 @@ These attributes can be used on the SMS Message input with the ${} notation.
 
 The maximum length of the SMS Message is 160 characters.
 
-SMS Message example
+SMS Message sample
 > We miss you! Activate a FREE plan here: https://cloud.marketing.test.com/${KeyAttribute}
