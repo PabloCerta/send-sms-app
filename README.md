@@ -22,7 +22,7 @@ In order to use the application as a Custom Activity in Journey Builder, follow 
 
 ![image](https://github.com/user-attachments/assets/c26c15b5-99a9-4207-9d44-1ee1a95e7ef4)
 
-4. Add the component to the Installed Package indicating the Endpoint URL of the app provided by the hosting website
+4. Add the component to the Installed Package as a Journey Builder Activity, indicating the Endpoint URL of the app provided by the hosting website
 
 ![image](https://github.com/user-attachments/assets/8a27c731-4ee1-4728-b188-e87d435608d5)
 
