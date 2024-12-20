@@ -9,17 +9,19 @@ router.post('/execute', async function(req, res) {
         //Get current Contact info from req.body
         const request = req.body;
         if(!request || !request.inArguments || request.inArguments.length == 0) return res.status(500).end();
-        const { smsMessage, contactKey, name, phone } = request.inArguments[0];
+        let { smsMessage, phone } = request.inArguments[0];
+        const { contactKey, name } = request.inArguments[0];
         console.log(`Contact processed::: ${contactKey} - ${name}`);
-        // Replace attributes
-        console.log(`SMS message PRE::: ${smsMessage}`);
-        const smsMessageFormatted = smsMessage.replace('${KeyAttribute}', contactKey).replace('${NameAttribute}', name).replace('${PhoneAttribute}', phone);
-        console.log(`SMS message POST::: ${smsMessageFormatted}`);
+        // Remove plus sign of phone number if any and replace attributes
+        console.log(`Phone PRE::: ${phone} - SMS message PRE::: ${smsMessage}`);
+        phone = phone.replace('+','');
+        smsMessage = smsMessage.replace('${KeyAttribute}', contactKey).replace('${NameAttribute}', name).replace('${PhoneAttribute}', phone);
+        console.log(`Phone POST::: ${phone} - SMS message POST::: ${smsMessage}`);
         // Call ENet SMS API
         const response = await fetch(process.env.SMS_ENDPOINT, {
             method: "POST",
             headers: { "Content-Type": "application/json", "client_id": process.env.CLIENT_ID, "client_secret": process.env.CLIENT_SECRET },
-            body: JSON.stringify({ "message": smsMessageFormatted, "msisdn": phone })
+            body: JSON.stringify({ "message": smsMessage, "msisdn": phone })
         });
         // Process response
         if(!response.ok) {
