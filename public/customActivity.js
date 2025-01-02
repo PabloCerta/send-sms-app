@@ -53,7 +53,7 @@ function onInitActivity(payload) {
     // If there is at least one inArgument
     if(hasInArguments){
         // Get inArguments values
-        const { smsMessage, contactKey, name, phone } = activity.arguments.execute.inArguments[0];
+        const { smsMessage, contactKey, name, phone, daysOverdue } = activity.arguments.execute.inArguments[0];
 
         // Set Key select
         setSelectAttribute('key', contactKey);
@@ -63,6 +63,9 @@ function onInitActivity(payload) {
 
         // Set Phone select
         setSelectAttribute('phone', phone);
+
+        // Set Days Overdue select
+        setSelectAttribute('days-overdue', daysOverdue);
 
         // Sets SMS message in the textarea element
         if(smsMessage){
@@ -80,7 +83,8 @@ function onDoneButtonClick() {
         smsMessage: document.getElementById('sms-message').value, 
         contactKey: document.getElementById('key-select').value, 
         name: document.getElementById('name-select').value, 
-        phone: document.getElementById('phone-select').value
+        phone: document.getElementById('phone-select').value,
+        daysOverdue: document.getElementById('days-overdue-select').value
     }];
 
     // Updates the activity structure in Journey Builder

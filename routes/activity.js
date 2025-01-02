@@ -10,12 +10,12 @@ router.post('/execute', async function(req, res) {
         const request = req.body;
         if(!request || !request.inArguments || request.inArguments.length == 0) return res.status(500).end();
         let { smsMessage, phone } = request.inArguments[0];
-        const { contactKey, name } = request.inArguments[0];
+        const { contactKey, name, daysOverdue } = request.inArguments[0];
         console.log(`Contact processed::: ${contactKey} - ${name}`);
         // Remove plus sign of phone number if any and replace attributes
         console.log(`Phone PRE::: ${phone} - SMS message PRE::: ${smsMessage}`);
         phone = phone.replace('+','');
-        smsMessage = smsMessage.replace('${KeyAttribute}', contactKey).replace('${NameAttribute}', name).replace('${PhoneAttribute}', phone);
+        smsMessage = smsMessage.replace('${KeyAttribute}', contactKey).replace('${NameAttribute}', name).replace('${PhoneAttribute}', phone).replace('${DaysOverdueAttribute}', daysOverdue);
         console.log(`Phone POST::: ${phone} - SMS message POST::: ${smsMessage}`);
         // Call ENet SMS API
         const response = await fetch(process.env.SMS_ENDPOINT, {
