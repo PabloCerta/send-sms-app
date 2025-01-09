@@ -28,7 +28,7 @@ function onRequestedSchema(data) {
     // Get schema
     schema = data['schema'];
 
-    // Get all the select elements, they have the same options
+    // Get all static select elements (i.e. the ones that are already in the DOM), they have the same options
     const selectElements = document.querySelectorAll('select');
 
     // Iterate over schema (i.e. every field value) and add them as options
@@ -55,17 +55,28 @@ function onInitActivity(payload) {
     // If there is at least one inArgument
     if(hasInArguments){
         // Get inArguments values
-        const { smsMessage, selectAttributes } = activity.arguments.execute.inArguments[0];
+        const { smsMessage, phone, dynamicAttributes } = activity.arguments.execute.inArguments[0];
 
-        // Create and populate corresponding attributes (includes static 'phone' select element and the dynamic ones)
-        Object.entries(selectAttributes).forEach(([attrName, attrValue]) => {
-            setSelectElement(attrName, true);
+        // Create and populate corresponding dynamic attributes (i.e. the ones that were injected in the DOM)
+        Object.entries(dynamicAttributes).forEach(([attrName, attrValue]) => {
+            setSelectElement(attrName);
             setSelectAttribute(attrName, attrValue);
         });
+
+        // Sets Phone select element
+        if(phone) {
+            setSelectAttribute('phone', phone);
+        }
 
         // Sets SMS Message in the textarea element
         if(smsMessage){
             document.getElementById('sms-message').value = smsMessage;
+        }
+
+        // // Disable button if limit reached
+        let selects = document.querySelectorAll('select');
+        if(selects.length == MAX_ATTRIBUTES){
+            document.querySelector('#button-add').disabled = true;
         }
     }
 }
@@ -75,10 +86,14 @@ function onDoneButtonClick() {
     activity.metaData.isConfigured = true;
 
     // Set inArguments with the SMS Message that the user inputs on the textarea element and the data bindings of the select elements
-    let argObj = { smsMessage : document.getElementById('sms-message').value, selectAttributes : {} };
-    let selects = document.querySelectorAll('select');
-    selects.forEach( s => {
-        argObj.selectAttributes = { ...argObj.selectAttributes, [s.dataset.attribute] : s.value }; // Sets as key the original value that the user entered in order to retrieve it when the component loads
+    let argObj = { 
+        smsMessage : document.getElementById('sms-message').value, 
+        phone : document.querySelector(`[data-attribute='phone']`).value,
+        dynamicAttributes : {} 
+    };
+    let dynamicSelects = document.querySelectorAll(`[data-type='dynamic']`);
+    dynamicSelects.forEach( s => {
+        argObj.dynamicAttributes = { ...argObj.dynamicAttributes, [s.dataset.attribute] : s.value }; // Sets as key the original value that the user entered in order to retrieve it when the component loads
     });
     activity.arguments.execute.inArguments = [argObj];
 
@@ -110,7 +125,7 @@ function onAddButtonClick() {
     }
 
     // Create html select element
-    setSelectElement(addAttrInput.value, false);
+    setSelectElement(addAttrInput.value);
 
     // Disable button if limit reached
     selects = document.querySelectorAll('select');
@@ -143,10 +158,9 @@ function setupEventHandlers() {
     document.getElementById('button-add').addEventListener('click', onAddButtonClick);
 }
 
-function setSelectElement(attrName, isInitContext) {
+function setSelectElement(attrName) {
     // Check if already exists a select element with the same id/name (using id and not dataset because id it's standarized with lowercase)
     let selectElement = document.querySelector(`#${attrName.toLowerCase()}-select`);
-    let addOptions = isInitContext || !isInitContext && !selectElement;
 
     // If not exists then add element to the DOM
     if(!selectElement) {
@@ -168,11 +182,20 @@ function setSelectElement(attrName, isInitContext) {
         selectElement.id = `${attrName.toLowerCase()}-select`;
         selectElement.name = attrName.toLowerCase();
         selectElement.dataset.attribute = attrName;
+        selectElement.dataset.type = 'dynamic';
         // Add empty option
         let option = new Option(' -- select an option -- ','');
         option.disabled = true;
         option.selected = 'selected';
         selectElement.add(option, undefined);
+        // Add options to new dynamic select element
+        if(schema){
+            // Add available options
+            schema.forEach( opt => {
+                let optElement = new Option(opt.name,`{{${opt.key}}}`);
+                selectElement.add(optElement, undefined);
+            });
+        }
         // Create remove button icon
         let buttonIcon = document.createElement('a');
         buttonIcon.id = 'button-remove';
@@ -186,15 +209,6 @@ function setSelectElement(attrName, isInitContext) {
         div.append(label, innerDiv);
         // Set attribute
         attributesContainer.append(div);
-    }
-
-    // Check if it's not a new select element and we are not on init lifecycle, then there's no need to add the options (they were added on init, this is for static attributes like 'phone'), otherwise add the options to the select element
-    if(addOptions && schema){
-        // Add available options
-        schema.forEach( opt => {
-            let optElement = new Option(opt.name,`{{${opt.key}}}`);
-            selectElement.add(optElement, undefined);
-        });
     }
 }
 

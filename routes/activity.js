@@ -9,11 +9,11 @@ router.post('/execute', async function(req, res) {
         //Get current Contact info from req.body
         const request = req.body;
         if(!request || !request.inArguments || request.inArguments.length == 0) return res.status(500).end();
-        let { smsMessage, selectAttributes } = request.inArguments[0];
+        let { smsMessage, phone, dynamicAttributes } = request.inArguments[0];
 
-        // Remove plus sign of phone number if any and replace attributes
-        let phone = selectAttributes.Phone.replace('+','');
-        Object.entries(selectAttributes).forEach(([attrName, attrValue]) => {
+        // Remove plus sign of phone number if any and replace dynamic attributes with it's corresponding values in the SMS message
+        phone = phone.replace('+','');
+        Object.entries(dynamicAttributes).forEach(([attrName, attrValue]) => {
             smsMessage = smsMessage.replace('${'+attrName+'}', attrValue);
         });
         
