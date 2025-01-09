@@ -28,6 +28,17 @@ function onRequestedSchema(data) {
     // Get schema
     schema = data['schema'];
 
+    // Get all the select elements, they have the same options
+    const selectElements = document.querySelectorAll('select');
+
+    // Iterate over schema (i.e. every field value) and add them as options
+    schema.forEach( opt => {
+        selectElements.forEach( select => {
+            let optElement = new Option(opt.name,`{{${opt.key}}}`);
+            select.add(optElement, undefined);
+        })
+    });
+
     // Tell parent iFrame that we are ready.
     connection.trigger('ready');
 }
