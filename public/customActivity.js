@@ -29,7 +29,7 @@ function onRequestedSchema(data) {
     schema = data['schema'];
 
     // Get all static select elements (i.e. the ones that are already in the DOM), they have the same options
-    const selectElements = document.querySelectorAll('select');
+    const selectElements = document.querySelectorAll(`[data-type='static']`); // document.querySelectorAll('select');
 
     // Iterate over schema (i.e. every field value) and add them as options
     schema.forEach( opt => {
@@ -63,14 +63,14 @@ function onInitActivity(payload) {
             setSelectAttribute(attrName, attrValue);
         });
 
-        // Sets Phone select element
+        // Sets Phone static select element
         if(phone) {
             setSelectAttribute('phone', phone);
         }
 
         // Sets SMS Message in the textarea element
         if(smsMessage){
-            document.getElementById('sms-message').value = smsMessage;
+            ddocument.querySelector('#sms-message').value = smsMessage;
         }
 
         // // Disable button if limit reached
@@ -87,8 +87,8 @@ function onDoneButtonClick() {
 
     // Set inArguments with the SMS Message that the user inputs on the textarea element and the data bindings of the select elements
     let argObj = { 
-        smsMessage : document.getElementById('sms-message').value, 
-        phone : document.querySelector(`[data-attribute='phone']`).value,
+        smsMessage : document.querySelector('#sms-message').value, 
+        phone : document.querySelector('#phone-select').value,
         dynamicAttributes : {} 
     };
     let dynamicSelects = document.querySelectorAll(`[data-type='dynamic']`);
@@ -215,6 +215,6 @@ function setSelectElement(attrName) {
 function setSelectAttribute(attrName, attrValue) {
     // Sets attribute value if it's a valid option of the select element
     if(attrValue && schema.some((scm) => `{{${scm.key}}}` === attrValue)){
-        document.querySelector(`[data-attribute='${attrName}']`).value = attrValue;
+        document.querySelector(`#${attrName.toLowerCase()}-select`).value = attrValue; // document.querySelector(`[data-attribute='${attrName}']`).value
     }
 }
