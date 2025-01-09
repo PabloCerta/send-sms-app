@@ -58,11 +58,13 @@ function onInitActivity(payload) {
         const { smsMessage, phone, dynamicAttributes } = activity.arguments.execute.inArguments[0];
 
         // Create and populate corresponding dynamic attributes (i.e. the ones that were injected in the DOM)
-        Object.entries(dynamicAttributes).forEach(([attrName, attrValue]) => {
-            setSelectElement(attrName);
-            setSelectAttribute(attrName, attrValue);
-        });
-
+        if(dynamicAttributes){
+            Object.entries(dynamicAttributes).forEach(([attrName, attrValue]) => {
+                setSelectElement(attrName);
+                setSelectAttribute(attrName, attrValue);
+            });
+        }
+        
         // Sets Phone static select element
         if(phone) {
             setSelectAttribute('phone', phone);
