@@ -12,31 +12,19 @@
                 <h3>Configure the message that's going to be sent to the customer</h3>
             </section>
             <section id="body-content">
-                <div class="inputWrapper">
-                    <label for="key-select">Key attribute</label>
-                    <select id="key-select" name="contactKey">
-                        <option disabled selected value> -- select an option -- </option>
-                    </select>
+                <div id="attributes-container">
+                    <div id="phone-attribute" class="input-wrapper column-flex">
+                        <label for="phone-select">Phone attribute</label>
+                        <select id="phone-select" name="phone" data-attribute="Phone">
+                            <option disabled selected value> -- select an option -- </option>
+                        </select>
+                    </div>
                 </div>
-                <div class="inputWrapper">
-                    <label for="name-select">Name attribute</label>
-                    <select id="name-select" name="name">
-                        <option disabled selected value> -- select an option -- </option>
-                    </select>
+                <div class="input-wrapper row-flex">
+                    <input type="text" id="add-attribute-input" name="addAttribute" placeholder="Enter new attribute..." maxlength="25">
+                    <button id="button-add" class="button-add" pattern="[A-Za-z]{3}">Add</button>
                 </div>
-                <div class="inputWrapper">
-                    <label for="phone-select">Phone attribute</label>
-                    <select id="phone-select" name="phone">
-                        <option disabled selected value> -- select an option -- </option>
-                    </select>
-                </div>
-                <div class="inputWrapper">
-                    <label for="days-overdue-select">Days Overdue attribute</label>
-                    <select id="days-overdue-select" name="daysOverdue">
-                        <option disabled selected value> -- select an option -- </option>
-                    </select>
-                </div>
-                <div class="inputWrapper">
+                <div class="input-wrapper column-flex">
                     <label for="sms-message">SMS message</label>
                     <textarea id="sms-message" placeholder="Type the SMS message..." rows="8"></textarea>
                 </div>    

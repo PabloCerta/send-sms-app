@@ -9,20 +9,22 @@ router.post('/execute', async function(req, res) {
         //Get current Contact info from req.body
         const request = req.body;
         if(!request || !request.inArguments || request.inArguments.length == 0) return res.status(500).end();
-        let { smsMessage, phone } = request.inArguments[0];
-        const { contactKey, name, daysOverdue } = request.inArguments[0];
-        console.log(`Contact processed::: ${contactKey} - ${name}`);
+        let { smsMessage, selectAttributes } = request.inArguments[0];
+
         // Remove plus sign of phone number if any and replace attributes
-        console.log(`Phone PRE::: ${phone} - SMS message PRE::: ${smsMessage}`);
-        phone = phone.replace('+','');
-        smsMessage = smsMessage.replace('${KeyAttribute}', contactKey).replace('${NameAttribute}', name).replace('${PhoneAttribute}', phone).replace('${DaysOverdueAttribute}', daysOverdue);
-        console.log(`Phone POST::: ${phone} - SMS message POST::: ${smsMessage}`);
+        let phone = selectAttributes.Phone.replace('+','');
+        Object.entries(selectAttributes).forEach(([attrName, attrValue]) => {
+            smsMessage = smsMessage.replace('${'+attrName+'}', attrValue);
+        });
+        
         // Call ENet SMS API
+        console.log(`Sending SMS message ::: ${smsMessage} - To Phone::: ${phone}`);
         const response = await fetch(process.env.SMS_ENDPOINT, {
             method: "POST",
             headers: { "Content-Type": "application/json", "client_id": process.env.CLIENT_ID, "client_secret": process.env.CLIENT_SECRET },
             body: JSON.stringify({ "message": smsMessage, "msisdn": phone })
         });
+        
         // Process response
         if(!response.ok) {
             console.error(`SMS Response Error::: ${response.status} - ${response.statusText}`);

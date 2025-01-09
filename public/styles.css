@@ -8,19 +8,32 @@
   margin-bottom: 1rem;
 }
 
+#attributes-container {
+  margin-bottom: .25rem;
+}
+
 label {
   text-align: left;
 }
 
-.inputWrapper {
-  display: flex;
-  flex-direction: column;
+.input-wrapper {
   margin: 0 1.25rem;
   padding-bottom: .75rem;
 }
 
+.column-flex {
+  display: flex;
+  flex-direction: column;
+}
+
+.row-flex {
+  display: flex;
+  flex-direction: row;
+}
+
 select {
   height: 1.5rem;
+  width: 100%;
 }
 
 button {
@@ -60,4 +73,27 @@ button:disabled {
 
 .button-cancel:hover {
   background-color: #e6245a;
+}
+
+.button-add {
+  background-color: #2ea44f;
+  margin-left: 1rem;
+}
+
+.button-add:hover {
+  background-color: #2c974b;
+}
+
+.button-add:disabled,
+.button-add[disabled]{
+  background-color: #ccc;
+}
+
+#add-attribute-input {
+  width: 100%;
+}
+
+.button-remove {
+  margin-left: .5rem;
+  cursor: pointer;
 }
