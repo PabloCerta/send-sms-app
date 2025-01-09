@@ -70,7 +70,7 @@ function onInitActivity(payload) {
 
         // Sets SMS Message in the textarea element
         if(smsMessage){
-            ddocument.querySelector('#sms-message').value = smsMessage;
+            document.querySelector('#sms-message').value = smsMessage;
         }
 
         // // Disable button if limit reached
