@@ -14,19 +14,19 @@
 	},
 	"configurationArguments": {
 		"save": {
-			"url": "https://send-sms-custom-activity-enet1-0b0d78e1b714.herokuapp.com/api/activity/save",
+			"url": "https://<URL OF THE SERVER RUNNING THE BACKEND>/api/activity/save",
 			"verb": "POST"
 		},
 		"publish": {
-			"url": "https://send-sms-custom-activity-enet1-0b0d78e1b714.herokuapp.com/api/activity/publish",
+			"url": "https://<URL OF THE SERVER RUNNING THE BACKEND>/api/activity/publish",
 			"verb": "POST"
 		},
 		"validate": {
-			"url": "https://send-sms-custom-activity-enet1-0b0d78e1b714.herokuapp.com/api/activity/validate",
+			"url": "https://<URL OF THE SERVER RUNNING THE BACKEND>/api/activity/validate",
 			"verb": "POST"
 		},
         "stop": {
-			"url": "https://send-sms-custom-activity-enet1-0b0d78e1b714.herokuapp.com/api/activity/stop",
+			"url": "https://<URL OF THE SERVER RUNNING THE BACKEND>/api/activity/stop",
 			"verb": "POST"
 		}
 	},
@@ -41,7 +41,7 @@
 		"execute": {
 			"inArguments": [],
 			"outArguments": [],
-			"url": "https://send-sms-custom-activity-enet1-0b0d78e1b714.herokuapp.com/api/activity/execute",
+			"url": "https://<URL OF THE SERVER RUNNING THE BACKEND>/api/activity/execute",
 			"verb": "POST",
 			"timeout": 10000,
 			"retryCount": 3,
